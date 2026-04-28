@@ -43,9 +43,30 @@ void displayBoard()
     cout << endl;
 }
 
+// Player move
+void playerMove(char currentPlayer)
+{
+    int position;
+    cout << "Player " << currentPlayer << ", enter position (1-9): ";
+    cin >> position;
+
+    int index = position - 1;
+    int row = index / 3;
+    int col = index % 3;
+
+    board[row][col] = currentPlayer;
+}
+
 int main()
 {
     initializeBoard();
+
+    char currentPlayer = 'X';
+
+    displayBoard();
+
+    playerMove(currentPlayer);
+
     displayBoard();
 
     return 0;
