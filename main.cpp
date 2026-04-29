@@ -47,14 +47,34 @@ void displayBoard()
 void playerMove(char currentPlayer)
 {
     int position;
-    cout << "Player " << currentPlayer << ", enter position (1-9): ";
-    cin >> position;
 
-    int index = position - 1;
-    int row = index / 3;
-    int col = index % 3;
+    while (true)
+    {
+        cout << "Player " << currentPlayer << ", enter position (1-9): ";
+        cin >> position;
 
-    board[row][col] = currentPlayer;
+        // Check range
+        if (position < 1 || position > 9)
+        {
+            cout << "Invalid input. Try again.\n";
+            continue;
+        }
+
+        int index = position - 1;
+        int row = index / 3;
+        int col = index % 3;
+
+        // Check if cell is already taken
+        if (board[row][col] == 'X' || board[row][col] == 'O')
+        {
+            cout << "Cell already taken. Try again.\n";
+            continue;
+        }
+
+        // Valid move
+        board[row][col] = currentPlayer;
+        break;
+    }
 }
 
 int main()
