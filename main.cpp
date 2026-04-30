@@ -130,26 +130,29 @@ int main()
     initializeBoard();
 
     char currentPlayer = 'X';
+    bool isWin = false;
 
-    // Game loop (9 moves max)
- for (int i = 0; i < 9; i++)
-{
-    displayBoard();
-    playerMove(currentPlayer);
-
-    if (checkWin(currentPlayer))
+    for (int i = 0; i < 9; i++)
     {
         displayBoard();
-        cout << "Player " << currentPlayer << " wins!" << endl;
-        return 0;
+        playerMove(currentPlayer);
+
+        if (checkWin(currentPlayer))
+        {
+            displayBoard();
+            cout << "Player " << currentPlayer << " wins!" << endl;
+            isWin = true;
+            break;
+        }
+
+        switchPlayer(currentPlayer);
     }
 
-    switchPlayer(currentPlayer);
-}
-
-    displayBoard();
-
-    cout << "Game Over!" << endl;
+    if (!isWin)
+    {
+        displayBoard();
+        cout << "It's a draw!" << endl;
+    }
 
     return 0;
 }
