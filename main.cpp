@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-// Game board
+
 char board[3][3];
 
 // Initialize board
