@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 
-
 char board[3][3];
 
 // Initialize board
@@ -10,13 +9,8 @@ void initializeBoard()
     char value = '1';
 
     for (int i = 0; i < 3; i++)
-    {
         for (int j = 0; j < 3; j++)
-        {
-            board[i][j] = value;
-            value++;
-        }
-    }
+            board[i][j] = value++;
 }
 
 // Display board
@@ -29,24 +23,34 @@ void displayBoard()
         for (int j = 0; j < 3; j++)
         {
             cout << " " << board[i][j] << " ";
-
-            if (j < 2)
-                cout << "|";
+            if (j < 2) cout << "|";
         }
 
         cout << endl;
-
-        if (i < 2)
-            cout << "---+---+---" << endl;
+        if (i < 2) cout << "---+---+---" << endl;
     }
 
     cout << endl;
 }
 
+// Convert position to row & col
+void getPosition(int position, int &row, int &col)
+{
+    int index = position - 1;
+    row = index / 3;
+    col = index % 3;
+}
+
+// Check if cell is taken
+bool isCellTaken(int row, int col)
+{
+    return (board[row][col] == 'X' || board[row][col] == 'O');
+}
+
 // Player move with validation
 void playerMove(char currentPlayer)
 {
-    int position;
+    int position, row, col;
 
     while (true)
     {
@@ -59,11 +63,9 @@ void playerMove(char currentPlayer)
             continue;
         }
 
-        int index = position - 1;
-        int row = index / 3;
-        int col = index % 3;
+        getPosition(position, row, col);
 
-        if (board[row][col] == 'X' || board[row][col] == 'O')
+        if (isCellTaken(row, col))
         {
             cout << "Cell already taken. Try again.\n";
             continue;
@@ -77,47 +79,25 @@ void playerMove(char currentPlayer)
 // Switch player
 void switchPlayer(char &currentPlayer)
 {
-    if (currentPlayer == 'X')
-        currentPlayer = 'O';
-    else
-        currentPlayer = 'X';
+    currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
 }
 
-bool checkWin(char currentPlayer)
+// Check win
+bool checkWin(char player)
 {
-    // Check rows
+    // Rows & Columns
     for (int i = 0; i < 3; i++)
     {
-        if (board[i][0] == currentPlayer &&
-            board[i][1] == currentPlayer &&
-            board[i][2] == currentPlayer)
+        if ((board[i][0] == player && board[i][1] == player && board[i][2] == player) ||
+            (board[0][i] == player && board[1][i] == player && board[2][i] == player))
         {
             return true;
         }
     }
 
-    // Check columns
-    for (int i = 0; i < 3; i++)
-    {
-        if (board[0][i] == currentPlayer &&
-            board[1][i] == currentPlayer &&
-            board[2][i] == currentPlayer)
-        {
-            return true;
-        }
-    }
-
-    // Check diagonals
-    if (board[0][0] == currentPlayer &&
-        board[1][1] == currentPlayer &&
-        board[2][2] == currentPlayer)
-    {
-        return true;
-    }
-
-    if (board[0][2] == currentPlayer &&
-        board[1][1] == currentPlayer &&
-        board[2][0] == currentPlayer)
+    // Diagonals
+    if ((board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
+        (board[0][2] == player && board[1][1] == player && board[2][0] == player))
     {
         return true;
     }
@@ -140,7 +120,7 @@ int main()
         if (checkWin(currentPlayer))
         {
             displayBoard();
-            cout << "Player " << currentPlayer << " wins!" << endl;
+            cout << "Player " << currentPlayer << " wins!\n";
             isWin = true;
             break;
         }
@@ -151,7 +131,7 @@ int main()
     if (!isWin)
     {
         displayBoard();
-        cout << "It's a draw!" << endl;
+        cout << "It's a draw!\n";
     }
 
     return 0;
