@@ -13,24 +13,30 @@ void initializeBoard()
             board[i][j] = value++;
 }
 
-// Display board
+// Display board (IMPROVED)
 void displayBoard()
 {
-    cout << endl;
+    cout << "\n";
 
     for (int i = 0; i < 3; i++)
     {
+        cout << "   ";
+
         for (int j = 0; j < 3; j++)
         {
-            cout << " " << board[i][j] << " ";
-            if (j < 2) cout << "|";
+            cout << board[i][j];
+
+            if (j < 2)
+                cout << "   |   ";
         }
 
-        cout << endl;
-        if (i < 2) cout << "---+---+---" << endl;
+        cout << "\n";
+
+        if (i < 2)
+            cout << "  ---------------------\n";
     }
 
-    cout << endl;
+    cout << "\n";
 }
 
 // Convert position to row & col
@@ -47,7 +53,7 @@ bool isCellTaken(int row, int col)
     return (board[row][col] == 'X' || board[row][col] == 'O');
 }
 
-// Player move with validation (UPDATED)
+// Player move with validation
 void playerMove(char currentPlayer, string currentName)
 {
     int position, row, col;
@@ -107,6 +113,11 @@ int main()
 {
     initializeBoard();
 
+    //  Title
+    cout << "=========================\n";
+    cout << "      TIC TAC TOE        \n";
+    cout << "=========================\n\n";
+
     string playerX, playerO;
 
     cout << "Enter name for Player X: ";
@@ -123,6 +134,9 @@ int main()
         displayBoard();
 
         string currentName = (currentPlayer == 'X') ? playerX : playerO;
+
+        //  show turn
+        cout << "Turn: " << currentName << " (" << currentPlayer << ")\n";
 
         playerMove(currentPlayer, currentName);
 
