@@ -13,7 +13,7 @@ void initializeBoard()
             board[i][j] = value++;
 }
 
-// Display board (IMPROVED)
+// Display board
 void displayBoard()
 {
     cout << "\n";
@@ -53,7 +53,7 @@ bool isCellTaken(int row, int col)
     return (board[row][col] == 'X' || board[row][col] == 'O');
 }
 
-// Player move with validation
+// Player move
 void playerMove(char currentPlayer, string currentName)
 {
     int position, row, col;
@@ -111,51 +111,60 @@ bool checkWin(char player)
 
 int main()
 {
-    initializeBoard();
+    char playAgain;
 
-    //  Title
-    cout << "=========================\n";
-    cout << "      TIC TAC TOE        \n";
-    cout << "=========================\n\n";
-
-    string playerX, playerO;
-
-    cout << "Enter name for Player X: ";
-    cin >> playerX;
-
-    cout << "Enter name for Player O: ";
-    cin >> playerO;
-
-    char currentPlayer = 'X';
-    bool isWin = false;
-
-    for (int i = 0; i < 9; i++)
+    do
     {
-        displayBoard();
+        initializeBoard();
 
-        string currentName = (currentPlayer == 'X') ? playerX : playerO;
+        cout << "=========================\n";
+        cout << "      TIC TAC TOE        \n";
+        cout << "=========================\n\n";
 
-        //  show turn
-        cout << "Turn: " << currentName << " (" << currentPlayer << ")\n";
+        string playerX, playerO;
 
-        playerMove(currentPlayer, currentName);
+        cout << "Enter name for Player X: ";
+        cin >> playerX;
 
-        if (checkWin(currentPlayer))
+        cout << "Enter name for Player O: ";
+        cin >> playerO;
+
+        char currentPlayer = 'X';
+        bool isWin = false;
+
+        for (int i = 0; i < 9; i++)
         {
             displayBoard();
-            cout << currentName << " wins!\n";
-            isWin = true;
-            break;
+
+            string currentName = (currentPlayer == 'X') ? playerX : playerO;
+
+            cout << "Turn: " << currentName << " (" << currentPlayer << ")\n";
+
+            playerMove(currentPlayer, currentName);
+
+            if (checkWin(currentPlayer))
+            {
+                displayBoard();
+                cout << currentName << " wins!\n";
+                isWin = true;
+                break;
+            }
+
+            switchPlayer(currentPlayer);
         }
 
-        switchPlayer(currentPlayer);
-    }
+        if (!isWin)
+        {
+            displayBoard();
+            cout << "It's a draw!\n";
+        }
 
-    if (!isWin)
-    {
-        displayBoard();
-        cout << "It's a draw!\n";
-    }
+        cout << "\nPlay again? (y/n): ";
+        cin >> playAgain;
+
+    } while (playAgain == 'y' || playAgain == 'Y');
+
+    cout << "Thanks for playing!\n";
 
     return 0;
 }
