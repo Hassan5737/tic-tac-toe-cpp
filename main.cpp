@@ -47,14 +47,14 @@ bool isCellTaken(int row, int col)
     return (board[row][col] == 'X' || board[row][col] == 'O');
 }
 
-// Player move with validation
-void playerMove(char currentPlayer)
+// Player move with validation (UPDATED)
+void playerMove(char currentPlayer, string currentName)
 {
     int position, row, col;
 
     while (true)
     {
-        cout << "Player " << currentPlayer << ", enter position (1-9): ";
+        cout << currentName << " (" << currentPlayer << "), enter position (1-9): ";
         cin >> position;
 
         if (position < 1 || position > 9)
@@ -85,7 +85,6 @@ void switchPlayer(char &currentPlayer)
 // Check win
 bool checkWin(char player)
 {
-    // Rows & Columns
     for (int i = 0; i < 3; i++)
     {
         if ((board[i][0] == player && board[i][1] == player && board[i][2] == player) ||
@@ -95,7 +94,6 @@ bool checkWin(char player)
         }
     }
 
-    // Diagonals
     if ((board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
         (board[0][2] == player && board[1][1] == player && board[2][0] == player))
     {
@@ -109,18 +107,29 @@ int main()
 {
     initializeBoard();
 
+    string playerX, playerO;
+
+    cout << "Enter name for Player X: ";
+    cin >> playerX;
+
+    cout << "Enter name for Player O: ";
+    cin >> playerO;
+
     char currentPlayer = 'X';
     bool isWin = false;
 
     for (int i = 0; i < 9; i++)
     {
         displayBoard();
-        playerMove(currentPlayer);
+
+        string currentName = (currentPlayer == 'X') ? playerX : playerO;
+
+        playerMove(currentPlayer, currentName);
 
         if (checkWin(currentPlayer))
         {
             displayBoard();
-            cout << "Player " << currentPlayer << " wins!\n";
+            cout << currentName << " wins!\n";
             isWin = true;
             break;
         }
