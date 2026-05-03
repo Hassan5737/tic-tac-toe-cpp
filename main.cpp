@@ -3,6 +3,11 @@ using namespace std;
 
 char board[3][3];
 
+// Colors
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define RESET "\033[0m"
+
 // Initialize board
 void initializeBoard()
 {
@@ -13,7 +18,7 @@ void initializeBoard()
             board[i][j] = value++;
 }
 
-// Display board
+// Display board with colors
 void displayBoard()
 {
     cout << "\n";
@@ -24,7 +29,12 @@ void displayBoard()
 
         for (int j = 0; j < 3; j++)
         {
-            cout << board[i][j];
+            if (board[i][j] == 'X')
+                cout << GREEN << board[i][j] << RESET;
+            else if (board[i][j] == 'O')
+                cout << RED << board[i][j] << RESET;
+            else
+                cout << board[i][j];
 
             if (j < 2)
                 cout << "   |   ";
