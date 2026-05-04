@@ -92,6 +92,23 @@ void playerMove(char currentPlayer, string currentName)
     }
 }
 
+//  Computer move (simple AI)
+void computerMove(char computerPlayer)
+{
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (!isCellTaken(i, j))
+            {
+                board[i][j] = computerPlayer;
+                cout << "Computer played at position " << (i * 3 + j + 1) << "\n";
+                return;
+            }
+        }
+    }
+}
+
 // Switch player
 void switchPlayer(char &currentPlayer)
 {
@@ -131,13 +148,27 @@ int main()
         cout << "      TIC TAC TOE        \n";
         cout << "=========================\n\n";
 
+        int mode;
+        cout << "Choose mode:\n";
+        cout << "1. Player vs Player\n";
+        cout << "2. Player vs Computer\n";
+        cout << "Enter choice: ";
+        cin >> mode;
+
         string playerX, playerO;
 
         cout << "Enter name for Player X: ";
         cin >> playerX;
 
-        cout << "Enter name for Player O: ";
-        cin >> playerO;
+        if (mode == 1)
+        {
+            cout << "Enter name for Player O: ";
+            cin >> playerO;
+        }
+        else
+        {
+            playerO = "Computer";
+        }
 
         char currentPlayer = 'X';
         bool isWin = false;
@@ -150,7 +181,15 @@ int main()
 
             cout << "Turn: " << currentName << " (" << currentPlayer << ")\n";
 
-            playerMove(currentPlayer, currentName);
+           
+            if (mode == 2 && currentPlayer == 'O')
+            {
+                computerMove(currentPlayer);
+            }
+            else
+            {
+                playerMove(currentPlayer, currentName);
+            }
 
             if (checkWin(currentPlayer))
             {
