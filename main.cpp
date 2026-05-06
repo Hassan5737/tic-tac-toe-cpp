@@ -65,7 +65,7 @@ bool isCellTaken(int row, int col)
     return (board[row][col] == 'X' || board[row][col] == 'O');
 }
 
-// 🧠 Evaluate board
+//  Evaluate board
 int evaluate()
 {
     for (int i = 0; i < 3; i++)
@@ -108,7 +108,7 @@ bool isMovesLeft()
     return false;
 }
 
-// 🤯 Minimax
+//  Minimax
 int minimax(bool isMax)
 {
     int score = evaluate();
@@ -163,7 +163,7 @@ int minimax(bool isMax)
     }
 }
 
-// 🤖 Smart AI (Hard)
+//  Smart AI (Hard)
 void computerMove(char computerPlayer)
 {
     int bestVal = -1000;
@@ -196,7 +196,7 @@ void computerMove(char computerPlayer)
     cout << "Computer played at position " << (bestRow * 3 + bestCol + 1) << "\n";
 }
 
-// 🎲 Random move (Easy)
+//  Random move (Easy)
 void randomMove(char computerPlayer)
 {
     while (true)
