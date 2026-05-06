@@ -1,5 +1,7 @@
 #include <iostream>
 #include <algorithm>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 char board[3][3];
@@ -161,7 +163,7 @@ int minimax(bool isMax)
     }
 }
 
-// 🤖 Smart AI
+// 🤖 Smart AI (Hard)
 void computerMove(char computerPlayer)
 {
     int bestVal = -1000;
@@ -192,6 +194,25 @@ void computerMove(char computerPlayer)
 
     board[bestRow][bestCol] = computerPlayer;
     cout << "Computer played at position " << (bestRow * 3 + bestCol + 1) << "\n";
+}
+
+// 🎲 Random move (Easy)
+void randomMove(char computerPlayer)
+{
+    while (true)
+    {
+        int pos = rand() % 9 + 1;
+
+        int row, col;
+        getPosition(pos, row, col);
+
+        if (!isCellTaken(row, col))
+        {
+            board[row][col] = computerPlayer;
+            cout << "Computer played at position " << pos << "\n";
+            break;
+        }
+    }
 }
 
 // Player move
@@ -235,6 +256,8 @@ bool checkWin(char player)
 
 int main()
 {
+    srand(time(0)); // مهم جدًا
+
     char playAgain;
 
     do
@@ -248,6 +271,14 @@ int main()
         int mode;
         cout << "1. Player vs Player\n2. Player vs Computer\nChoose: ";
         cin >> mode;
+
+        int difficulty = 3;
+
+        if (mode == 2)
+        {
+            cout << "Choose difficulty:\n1. Easy\n2. Medium\n3. Hard\n";
+            cin >> difficulty;
+        }
 
         string playerX, playerO;
 
@@ -268,9 +299,27 @@ int main()
             cout << "Turn: " << currentName << " (" << currentPlayer << ")\n";
 
             if (mode == 2 && currentPlayer == 'O')
-                computerMove(currentPlayer);
+            {
+                if (difficulty == 1)
+                {
+                    randomMove(currentPlayer);
+                }
+                else if (difficulty == 2)
+                {
+                    if (rand() % 2 == 0)
+                        randomMove(currentPlayer);
+                    else
+                        computerMove(currentPlayer);
+                }
+                else
+                {
+                    computerMove(currentPlayer);
+                }
+            }
             else
+            {
                 playerMove(currentPlayer, currentName);
+            }
 
             if (checkWin(currentPlayer))
             {
