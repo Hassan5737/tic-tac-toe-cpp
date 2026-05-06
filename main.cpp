@@ -65,7 +65,7 @@ bool isCellTaken(int row, int col)
     return (board[row][col] == 'X' || board[row][col] == 'O');
 }
 
-//  Evaluate board
+// Evaluate board
 int evaluate()
 {
     for (int i = 0; i < 3; i++)
@@ -108,7 +108,7 @@ bool isMovesLeft()
     return false;
 }
 
-//  Minimax
+// Minimax
 int minimax(bool isMax)
 {
     int score = evaluate();
@@ -124,20 +124,15 @@ int minimax(bool isMax)
         int best = -1000;
 
         for (int i = 0; i < 3; i++)
-        {
             for (int j = 0; j < 3; j++)
-            {
                 if (!isCellTaken(i, j))
                 {
                     char temp = board[i][j];
                     board[i][j] = 'O';
-
                     best = max(best, minimax(false));
-
                     board[i][j] = temp;
                 }
-            }
-        }
+
         return best;
     }
     else
@@ -145,34 +140,27 @@ int minimax(bool isMax)
         int best = 1000;
 
         for (int i = 0; i < 3; i++)
-        {
             for (int j = 0; j < 3; j++)
-            {
                 if (!isCellTaken(i, j))
                 {
                     char temp = board[i][j];
                     board[i][j] = 'X';
-
                     best = min(best, minimax(true));
-
                     board[i][j] = temp;
                 }
-            }
-        }
+
         return best;
     }
 }
 
-//  Smart AI (Hard)
+// Smart AI
 void computerMove(char computerPlayer)
 {
     int bestVal = -1000;
     int bestRow = -1, bestCol = -1;
 
     for (int i = 0; i < 3; i++)
-    {
         for (int j = 0; j < 3; j++)
-        {
             if (!isCellTaken(i, j))
             {
                 char temp = board[i][j];
@@ -189,14 +177,12 @@ void computerMove(char computerPlayer)
                     bestVal = moveVal;
                 }
             }
-        }
-    }
 
     board[bestRow][bestCol] = computerPlayer;
     cout << "Computer played at position " << (bestRow * 3 + bestCol + 1) << "\n";
 }
 
-//  Random move (Easy)
+// Random move
 void randomMove(char computerPlayer)
 {
     while (true)
@@ -256,7 +242,11 @@ bool checkWin(char player)
 
 int main()
 {
-    srand(time(0)); // مهم جدًا
+    srand(time(0));
+
+    int xWins = 0;
+    int oWins = 0;
+    int draws = 0;
 
     char playAgain;
 
@@ -301,20 +291,11 @@ int main()
             if (mode == 2 && currentPlayer == 'O')
             {
                 if (difficulty == 1)
-                {
                     randomMove(currentPlayer);
-                }
                 else if (difficulty == 2)
-                {
-                    if (rand() % 2 == 0)
-                        randomMove(currentPlayer);
-                    else
-                        computerMove(currentPlayer);
-                }
+                    (rand() % 2 == 0) ? randomMove(currentPlayer) : computerMove(currentPlayer);
                 else
-                {
                     computerMove(currentPlayer);
-                }
             }
             else
             {
@@ -325,6 +306,12 @@ int main()
             {
                 displayBoard();
                 cout << currentName << " wins!\n";
+
+                if (currentPlayer == 'X')
+                    xWins++;
+                else
+                    oWins++;
+
                 isWin = true;
                 break;
             }
@@ -336,7 +323,14 @@ int main()
         {
             displayBoard();
             cout << "It's a draw!\n";
+            draws++;
         }
+
+        cout << "\n=== SCOREBOARD ===\n";
+        cout << playerX << " (X): " << xWins << endl;
+        cout << playerO << " (O): " << oWins << endl;
+        cout << "Draws: " << draws << endl;
+        cout << "==================\n";
 
         cout << "\nPlay again? (y/n): ";
         cin >> playAgain;
